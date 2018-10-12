@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/web/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/web/vendor/pimple/pimple" />
+      <path value="$PROJECT_DIR$/web/vendor/composer" />
+      <path value="$PROJECT_DIR$/web/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/web/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/web/vendor/silex/silex" />
+      <path value="$PROJECT_DIR$/web/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/web/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/web/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/web/vendor/symfony/event-dispatcher" />
+    </include_path>
+  </component>
+</project>

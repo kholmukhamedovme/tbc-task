@@ -1,0 +1,209 @@
+openapi: 3.0.1
+
+info:
+  title: REST API for TBC Test Task
+  description: Simple CRUD of users with option to activate or deactivate them
+  contact:
+    name: Farrukh Kholmukhamedov
+    url: http://kholmukhamedov.me
+    email: farrukh@kholmukhamedov.me
+  version: 1.0.0
+
+paths:
+
+  /users/:
+
+    post:
+      tags:
+        - Users
+      summary: Create user
+      description: Create user with name, photo, status
+      operationId: createUser
+      parameters:
+        - name: name
+          in: query
+          description: User name
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: User status (true for active, false for inactive)
+          required: false
+          schema:
+            type: boolean
+      requestBody:
+        description: User photo
+        content:
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
+          image/png:
+            schema:
+              type: string
+              format: binary
+        required: false
+      responses:
+        200:
+          description: ID of newly created user
+          content:
+            text/plain:
+              schema:
+                type: integer
+                format: int64
+        default:
+          description: Unknown error with message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      tags:
+        - Users
+      summary: Get user(s)
+      description: Get user by ID or all users
+      parameters:
+        - name: id
+          in: query
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Array of users data or one user data if ID was given
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/User'
+                  - $ref: '#/components/schemas/Users'
+        default:
+          description: Unknown error with message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - Users
+      summary: Update user
+      description: Update user by ID
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: query
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          description: User name
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: User status (true for active, false for inactive)
+          required: false
+          schema:
+            type: boolean
+      requestBody:
+        description: User photo
+        content:
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
+          image/png:
+            schema:
+              type: string
+              format: binary
+        required: false
+      responses:
+        200:
+          description: Status of delete user operation
+          content:
+            text/plain:
+              schema:
+                type: boolean
+        default:
+          description: Unknown error with message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Users
+      summary: Delete user
+      description: Delete user by ID
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: query
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Status of delete user operation
+          content:
+            text/plain:
+              schema:
+                type: boolean
+        default:
+          description: Unknown error with message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          minimum: 100
+          maximum: 600
+        message:
+          type: string
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - hasPhoto
+        - status
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        hasPhoto:
+          type: boolean
+        status:
+          type: boolean
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+
+tags:
+  - name: Users
+    description: Operations under users
